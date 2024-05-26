@@ -1,0 +1,31 @@
+name: Deploy to Ubuntu Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Deploy to server
+      env:
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: |
+        echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+        ssh-keyscan $HOST >> ~/.ssh/known_hosts
+        rsync -avz --exclude=.git ./ $USERNAME@$HOST:/var/www/devwize-nextjs
+        ssh $USERNAME@$HOST '
+          cd /var/www/devwize-nextjs &&
+          npm install &&
+          npm run build &&
+          pm2 restart my-blog
+        '
+
