@@ -20,17 +20,17 @@ jobs:
 
     - name: Deploy to server
       env:
-        HOST: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
+        SSH_HOST: ${{ secrets.SSH_HOST }}
+        SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
       
       run: |
         echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-        ssh-keyscan $HOST >> ~/.ssh/known_hosts
-        rsync -avz --exclude=.git ./ $USERNAME@$HOST:/var/www/devwize-nextjs
-        ssh $USERNAME@$HOST '
+        ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+        rsync -avz --exclude=.git ./ $SSH_USERNAME@$SSH_HOST:/var/www/devwize-nextjs
+        ssh $SSH_USERNAME@$SSH_HOST '
           cd /var/www/devwize-nextjs &&
           npm install &&
           npm run build &&
-          pm2 restart my-blog
+          npm run start
         '
 
