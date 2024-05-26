@@ -33,6 +33,6 @@ jobs:
           cd /var/www/devwize-nextjs &&
           npm install &&
           npm run build &&
-          npm run start
+          nohup npm run start &
         '
 
