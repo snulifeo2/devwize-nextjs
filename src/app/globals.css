@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 💻 Code block */
+pre {
+  @apply bg-gray-800 text-white rounded-lg p-4 overflow-auto text-sm;
+}
+
+

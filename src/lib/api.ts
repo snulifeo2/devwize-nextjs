@@ -14,6 +14,26 @@ export function getPostBySlug(slug: string) {
   const fullPath = join(postsDirectory, `${realSlug}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
+  const defaultOgImage = '/assets/blog/default/default_og_image.png';
+  const defaultCoverImage = '/assets/blog/default/default_cover_image.png';
+
+
+  
+  if (!data.coverImage) {
+    data.coverImage = defaultCoverImage;
+  }
+
+  if (!data.ogImage) {
+    data.ogImage = defaultOgImage;
+  }
+
+  console.log("getPostBySlug 함수 실행")
+  console.log("getPostBySlug 함수 실행")
+  console.log("getPostBySlug 함수 실행")
+  console.log("getPostBySlug 함수 실행")
+
+  console.log(data);
+
 
   return { ...data, slug: realSlug, content } as Post;
 }
