@@ -1,4 +1,6 @@
+// app/layout.tsx
 import Footer from "@/app/_components/footer";
+import ClientSideBarLayout from "@/app/_components/client-sidebar-layout";
 import { CMS_NAME, HOME_OG_IMAGE_URL } from "@/lib/constants";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -13,6 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [HOME_OG_IMAGE_URL],
   },
+  metadataBase: new URL("https://devwize.com"),
 };
 
 export default function RootLayout({
@@ -56,7 +59,7 @@ export default function RootLayout({
         <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       </head>
       <body className={inter.className}>
-        <div className="min-h-screen">{children}</div>
+        <ClientSideBarLayout>{children}</ClientSideBarLayout>
         <Footer />
       </body>
     </html>

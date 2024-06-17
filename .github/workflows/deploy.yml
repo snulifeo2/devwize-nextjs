@@ -25,6 +25,11 @@ jobs:
         SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       
+      # nohup npm run start & 로만 실행했을때 ssh 세션이 종료되면 웹서버 프로세스도 종료되는 문제가 발생
+      # SSH 세션이 종료되더라도 웹서버 프로세스가 종료되지 않도록 nohup을 사용하고 출력을 무시
+      # 2>&1은 표준 오류 출력을 표준 출력으로 리다이렉트하는 것을 의미
+      # > /dev/null은 표준 출력을 /dev/null로 리다이렉트하는 것을 의미
+      
       run: |
         echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
         ssh-keyscan -p $SSH_PORT $SSH_HOST >> ~/.ssh/known_hosts
@@ -33,6 +38,6 @@ jobs:
           cd /var/www/devwize-nextjs &&
           npm install &&
           npm run build &&
-          nohup npm run start &
+          nohup npm run start > /dev/null 2>&1 &
         '
 

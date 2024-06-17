@@ -17,7 +17,6 @@ export function getPostBySlug(slug: string) {
   const defaultOgImage = '/assets/blog/default/default_og_image.png';
   const defaultCoverImage = '/assets/blog/default/default_cover_image.png';
 
-
   
   if (!data.coverImage) {
     data.coverImage = defaultCoverImage;
@@ -26,14 +25,6 @@ export function getPostBySlug(slug: string) {
   if (!data.ogImage) {
     data.ogImage = defaultOgImage;
   }
-
-  console.log("getPostBySlug 함수 실행")
-  console.log("getPostBySlug 함수 실행")
-  console.log("getPostBySlug 함수 실행")
-  console.log("getPostBySlug 함수 실행")
-
-  console.log(data);
-
 
   return { ...data, slug: realSlug, content } as Post;
 }
