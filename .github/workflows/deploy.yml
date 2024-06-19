@@ -18,6 +18,17 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+    - name: Test SSH connection
+      env:
+        SSH_HOST: ${{ secrets.SSH_HOST }}
+        SSH_PORT: ${{ secrets.SSH_PORT }}
+        SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+      
+      run: |
+        echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+        ssh-keyscan -p $SSH_PORT $SSH_HOST >> ~/.ssh/known_hosts
+        ssh -v -p $SSH_PORT $SSH_USERNAME@$SSH_HOST 'echo "SSH connection successful"'
+    
     - name: Deploy to server
       env:
         SSH_HOST: ${{ secrets.SSH_HOST }}
@@ -25,12 +36,11 @@ jobs:
         SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       
-      
       run: |
         echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
         ssh-keyscan -p $SSH_PORT $SSH_HOST >> ~/.ssh/known_hosts
-        rsync -avz --delete --exclude=.git ./ $SSH_USERNAME@$SSH_HOST:/var/www/devwize-nextjs
-        ssh -p $SSH_PORT $SSH_USERNAME@$SSH_HOST '
+        rsync -avz --delete --exclude=.git -e "ssh -v -p $SSH_PORT" ./ $SSH_USERNAME@$SSH_HOST:/var/www/devwize-nextjs
+        ssh -v -p $SSH_PORT $SSH_USERNAME@$SSH_HOST '
           cd /var/www/devwize-nextjs &&
           rm -rf .next &&
           npm install &&
@@ -38,4 +48,3 @@ jobs:
           pm2 restart nextjs || pm2 start npm --name "nextjs" -- start &&
           pm2 save
         '
-
