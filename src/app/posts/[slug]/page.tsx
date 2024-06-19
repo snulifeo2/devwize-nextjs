@@ -8,6 +8,11 @@ import Container from "@/app/_components/container";
 import Header from "@/app/_components/header";
 import { PostBody } from "@/app/_components/post-body";
 import { PostHeader } from "@/app/_components/post-header";
+import dynamic from 'next/dynamic';
+
+const Comments = dynamic(() => import('@/app/_components/comments'), { ssr: false });
+
+
 
 export default async function Post({ params }: Params) {
   const post = getPostBySlug(params.slug);
@@ -20,7 +25,7 @@ export default async function Post({ params }: Params) {
 
   return (
     <main>
-      <Alert preview={post.preview} />
+      {/* <Alert preview={post.preview} /> */}
       <Container>
         <Header />
         <article className="mb-32">
@@ -31,6 +36,8 @@ export default async function Post({ params }: Params) {
             author={post.author}
           />
           <PostBody content={content} />
+          <hr className="mt-32 mb-32 border-t border-gray-300" />
+          <Comments />
         </article>
       </Container>
     </main>
