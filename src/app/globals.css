@@ -2,9 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+
+/* Import global fonts */
+@font-face {
+  font-family: 'MaruBuri-Regular';
+  src: url('/fonts/MaruBuri-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MaruBuri-Bold';
+  src: url('/fonts/MaruBuri-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* 💻 Code block */
+@font-face {
+  font-family: 'D2Coding';
+  src: url('/fonts/D2Coding.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+
+
+
+
 /* 💻 Code block */
 pre {
-  @apply bg-gray-800 text-white rounded-lg p-4 overflow-auto text-sm;
+  @apply text-white rounded-lg p-4 overflow-auto text-sm font-d2coding;
+}
+code {
+  @apply font-d2coding;
 }
 
 

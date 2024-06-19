@@ -14,10 +14,9 @@ export function getPostBySlug(slug: string) {
   const fullPath = join(postsDirectory, `${realSlug}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
-  const defaultOgImage = '/assets/blog/default/default_og_image.png';
-  const defaultCoverImage = '/assets/blog/default/default_cover_image.png';
+  const defaultOgImage = "/assets/blog/default/default_og_image.png";
+  const defaultCoverImage = "/assets/blog/default/default_cover_image.png";
 
-  
   if (!data.coverImage) {
     data.coverImage = defaultCoverImage;
   }
@@ -36,4 +35,9 @@ export function getAllPosts(): Post[] {
     // sort posts by date in descending order
     .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
   return posts;
+}
+
+export function getPostsByCategory(category: string): Post[] {
+  const allPosts = getAllPosts();
+  return allPosts.filter((post) => post.category === category);
 }

@@ -1,7 +1,7 @@
 // app/layout.tsx
 import Footer from "@/app/_components/footer";
 import ClientSideBarLayout from "@/app/_components/client-sidebar-layout";
-import { CMS_NAME, HOME_OG_IMAGE_URL } from "@/lib/constants";
+import { getAllPosts } from "@/lib/api";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -13,16 +13,15 @@ export const metadata: Metadata = {
   title: `Programmer Axiology's Blog`,
   description: ``,
   openGraph: {
-    images: [HOME_OG_IMAGE_URL],
+    images: ['/assets/blog/default/default_og_image.png'],
   },
   metadataBase: new URL("https://devwize.com"),
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+  const posts = getAllPosts();
+  const categories = Array.from(new Set(posts.map(post => post.category)));
+
   return (
     <html lang="en">
       <head>
@@ -35,14 +34,14 @@ export default function RootLayout({
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href="/favicon/favicon-32x32.png"
-        />
+          href="/favicon/favicon-32x32.png">
+        </link>
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href="/favicon/favicon-16x16.png"
-        />
+          href="/favicon/favicon-16x16.png">
+        </link>
         <link rel="manifest" href="/favicon/site.webmanifest" />
         <link
           rel="mask-icon"
@@ -59,9 +58,13 @@ export default function RootLayout({
         <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       </head>
       <body className={inter.className}>
-        <ClientSideBarLayout>{children}</ClientSideBarLayout>
-        <Footer />
+        <ClientSideBarLayout categories={categories}>
+          {children}
+          <Footer />
+        </ClientSideBarLayout>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

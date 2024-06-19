@@ -8,6 +8,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'maruburi': ['MaruBuri-Regular', 'sans-serif'],
+        'maruburi-bold': ['MaruBuri-Bold', 'sans-serif'],
+        'd2coding': ['D2Coding', 'monospace'],
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

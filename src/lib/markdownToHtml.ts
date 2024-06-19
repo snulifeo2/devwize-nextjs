@@ -3,6 +3,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 import rehypePrettyCode from "rehype-pretty-code";
+import remarkBreaks from "remark-breaks"; // 추가된 부분
 import matter from "gray-matter";
 
 export default async function markdownToHtml(markdown: string) {
@@ -65,6 +66,7 @@ export default async function markdownToHtml(markdown: string) {
  
   const result = await unified()
     .use(remarkParse)
+    .use(remarkBreaks) // 추가된 부분
     .use(remarkRehype)
     .use(rehypePrettyCode, {
       theme: "ayu-dark",
@@ -75,3 +77,5 @@ export default async function markdownToHtml(markdown: string) {
 
   return String(result);
 }
+
+

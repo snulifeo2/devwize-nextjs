@@ -7,9 +7,10 @@ import HamburgerButton from './hamburger-button';
 
 interface ClientSideBarLayoutProps {
   children: React.ReactNode;
+  categories: string[];
 }
 
-const ClientSideBarLayout: React.FC<ClientSideBarLayoutProps> = ({ children }) => {
+const ClientSideBarLayout: React.FC<ClientSideBarLayoutProps> = ({ children, categories }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -21,13 +22,11 @@ const ClientSideBarLayout: React.FC<ClientSideBarLayoutProps> = ({ children }) =
       }
     };
 
-    // Set the initial state based on the current window size
     if (typeof window !== 'undefined') {
       handleResize();
       window.addEventListener('resize', handleResize);
     }
 
-    // Clean up the event listener on component unmount
     return () => {
       if (typeof window !== 'undefined') {
         window.removeEventListener('resize', handleResize);
@@ -36,8 +35,8 @@ const ClientSideBarLayout: React.FC<ClientSideBarLayoutProps> = ({ children }) =
   }, []);
 
   return (
-    <div className="relative flex min-h-screen">
-      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+    <div className="relative flex min-h-screen font-maruburi">
+      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} categories={categories} />
       {!isOpen && (
         <HamburgerButton setIsOpen={setIsOpen} />
       )}
