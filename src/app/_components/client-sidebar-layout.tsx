@@ -1,7 +1,6 @@
-// src/app/_components/client-sidebar-layout.tsx
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from './sidebar';
 import HamburgerButton from './hamburger-button';
 
@@ -12,6 +11,7 @@ interface ClientSideBarLayoutProps {
 
 const ClientSideBarLayout: React.FC<ClientSideBarLayoutProps> = ({ children, categories }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,25 +22,37 @@ const ClientSideBarLayout: React.FC<ClientSideBarLayoutProps> = ({ children, cat
       }
     };
 
+    const handleClickOutside = (event: MouseEvent) => {
+      if (window.innerWidth < 768 && sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
     if (typeof window !== 'undefined') {
       handleResize();
       window.addEventListener('resize', handleResize);
+      window.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       if (typeof window !== 'undefined') {
         window.removeEventListener('resize', handleResize);
+        window.removeEventListener('mousedown', handleClickOutside);
       }
     };
   }, []);
 
   return (
     <div className="relative flex min-h-screen font-maruburi">
-      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} categories={categories} />
+      <div ref={sidebarRef}>
+        <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} categories={categories} />
+      </div>
       {!isOpen && (
         <HamburgerButton setIsOpen={setIsOpen} />
       )}
-      <div className={`flex-1 p-4 transition-all duration-300 ${isOpen && window.innerWidth >= 768 ? 'ml-64' : ''}`}>{children}</div>
+      <div className={`flex-1 p-4 transition-all duration-300 ${isOpen && window.innerWidth >= 768 ? 'ml-64' : ''}`}>
+        {children}
+      </div>
     </div>
   );
 };
