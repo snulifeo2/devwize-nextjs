@@ -25,10 +25,17 @@ jobs:
         SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       
+      
       run: |
         echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
         ssh-keyscan -p $SSH_PORT $SSH_HOST >> ~/.ssh/known_hosts
-        rsync -avz --delete -e "ssh -p $SSH_PORT" --exclude=.git ./ $SSH_USERNAME@$SSH_HOST:/var/www/devwize-nextjs
-        ssh -p $SSH_PORT $SSH_USERNAME@$SSH_HOST 'cd /var/www/devwize-nextjs && npm install'
-        ssh -p $SSH_PORT $SSH_USERNAME@$SSH_HOST 'cd /var/www/devwize-nextjs && npm run build'
-        ssh -p $SSH_PORT $SSH_USERNAME@$SSH_HOST 'cd /var/www/devwize-nextjs && nohup npm run start > /dev/null 2>&1 &'
+        rsync -avz --delete --exclude=.git ./ $SSH_USERNAME@$SSH_HOST:/var/www/devwize-nextjs
+        ssh -p $SSH_PORT $SSH_USERNAME@$SSH_HOST '
+          cd /var/www/devwize-nextjs &&
+          rm -rf .next &&
+          npm install &&
+          npm run build &&
+          pm2 restart nextjs || pm2 start npm --name "nextjs" -- start &&
+          pm2 save
+        '
+
