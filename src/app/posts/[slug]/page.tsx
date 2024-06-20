@@ -57,16 +57,16 @@ export function generateMetadata({ params }: Params): Metadata {
   }
 
  
-  const title = `${post.title} | Axiology Blog Post Made from ${CMS_NAME}`;
-  const description = post.excerpt || "Default description for the blog post.";
-  const url = `https://yourdomain.com/posts/${params.slug}`;
+  const title = `${post.title} | Programmer Axiology's Blog Post`;
+  const description = post.excerpt || "Programmer Axiology's Blog Post";
+  const url = `https://devwize.com/posts/${params.slug}`;
   const ogImage = post.ogImage;
   const imageUrl = typeof ogImage === 'string' ? ogImage : ogImage?.url;
   const keywords = post.keywords || [];
 
-  if (!imageUrl) {
+  /* if (!imageUrl) {
     console.error('OG Image URL is missing or invalid');
-  }
+  } */
 
   const metadata: Metadata = {
     title,
@@ -88,7 +88,7 @@ export function generateMetadata({ params }: Params): Metadata {
   };
 
   // JSON.stringify를 사용해 중첩된 객체를 문자열로 변환하여 출력합니다.
-  console.log(JSON.stringify(metadata, null, 2));
+  //console.log(JSON.stringify(metadata, null, 2));
 
   return metadata;
 }
