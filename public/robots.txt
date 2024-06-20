@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Allow: /
+
+# *
+User-agent: *
+Disallow: /admin/
+
+# Host
+Host: https://devwize.com
+
+# Sitemaps
+Sitemap: https://devwize.com/sitemap.xml
