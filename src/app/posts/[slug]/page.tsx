@@ -56,8 +56,8 @@ export function generateMetadata({ params }: Params): Metadata {
     return notFound();
   }
 
-  const title = `${post.title} | Axiology Blog Post Made from ${CMS_NAME}`;
-  const description = post.excerpt || "Default description for the blog post.";
+  const title = `${post.title} | Programmer Axiology's Blog`;
+  const description = post.excerpt || "Programmer Axiology's Blog Post";
   const url = `https://devwize.com/posts/${params.slug}`;
   const image = post.ogImage.url;
   const keywords = post.keywords || [];

@@ -10,8 +10,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: `Programmer Axiology's Blog`,
-  description: ``,
+  title: `Programmer Axiology's Blog | 개발자 '같이론'의 블로그`,
+  description: `Sharing the life of a late-blooming developer passionate about programming. | 개발에 진심인 늦깍이 개발자의 삶을 나눕니다.`,
   openGraph: {
     images: ['/assets/blog/default/default_og_image.png'],
   },
