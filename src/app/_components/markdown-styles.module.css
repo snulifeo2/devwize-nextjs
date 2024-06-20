@@ -3,7 +3,12 @@
 }
 
 .markdown p,
-.markdown ul,
+.markdown ul {
+  @apply list-disc pl-5;
+}
+.markdown li {
+  @apply mb-4; /* 요소 간의 간격을 늘리기 위해 마진을 4로 설정 */
+}
 .markdown ol,
 .markdown blockquote {
   @apply my-6;
