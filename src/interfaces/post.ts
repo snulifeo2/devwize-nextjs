@@ -12,5 +12,6 @@ export type Post = {
   };
   content: string;
   category: string;
+  keywords: string[];
   preview?: boolean;
 };

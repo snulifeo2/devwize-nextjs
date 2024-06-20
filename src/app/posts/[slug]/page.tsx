@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug } from "@/lib/api";
 import { CMS_NAME } from "@/lib/constants";
 import markdownToHtml from "@/lib/markdownToHtml";
-import Alert from "@/app/_components/alert";
 import Container from "@/app/_components/container";
 import Header from "@/app/_components/header";
 import { PostBody } from "@/app/_components/post-body";
@@ -57,13 +56,29 @@ export function generateMetadata({ params }: Params): Metadata {
     return notFound();
   }
 
-  const title = `${post.title} | Next.js Blog Example with ${CMS_NAME}`;
+  const title = `${post.title} | Axiology Blog Post Made from ${CMS_NAME}`;
+  const description = post.excerpt || "Default description for the blog post.";
+  const url = `https://devwize.com/posts/${params.slug}`;
+  const image = post.ogImage.url;
+  const keywords = post.keywords || [];
+
 
   return {
     title,
+    description,
+    keywords,
     openGraph: {
       title,
-      images: [post.ogImage.url],
+      description,
+      url,
+      type: 'article',
+      images: [{ url: image }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [{ url: image }],
     },
   };
 }
