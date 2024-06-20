@@ -56,13 +56,19 @@ export function generateMetadata({ params }: Params): Metadata {
     return notFound();
   }
 
+ 
   const title = `${post.title} | Axiology Blog Post Made from ${CMS_NAME}`;
   const description = post.excerpt || "Default description for the blog post.";
   const url = `https://yourdomain.com/posts/${params.slug}`;
-  const image = post.ogImage.url;
+  const ogImage = post.ogImage;
+  const imageUrl = typeof ogImage === 'string' ? ogImage : ogImage?.url;
   const keywords = post.keywords || [];
 
-  return {
+  if (!imageUrl) {
+    console.error('OG Image URL is missing or invalid');
+  }
+
+  const metadata: Metadata = {
     title,
     description,
     keywords,
@@ -71,25 +77,20 @@ export function generateMetadata({ params }: Params): Metadata {
       description,
       url,
       type: 'article',
-      images: [
-        {
-          url: image,
-          alt: post.title,
-        },
-      ],
+      images: imageUrl ? [{ url: imageUrl }] : [],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [
-        {
-          url: image,
-          alt: post.title,
-        },
-      ],
+      images: imageUrl ? [{ url: imageUrl }] : [],
     },
   };
+
+  // JSON.stringify를 사용해 중첩된 객체를 문자열로 변환하여 출력합니다.
+  console.log(JSON.stringify(metadata, null, 2));
+
+  return metadata;
 }
 
 export async function generateStaticParams() {
