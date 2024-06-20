@@ -56,12 +56,11 @@ export function generateMetadata({ params }: Params): Metadata {
     return notFound();
   }
 
-  const title = `${post.title} | Programmer Axiology's Blog`;
-  const description = post.excerpt || "Programmer Axiology's Blog Post";
-  const url = `https://devwize.com/posts/${params.slug}`;
+  const title = `${post.title} | Axiology Blog Post Made from ${CMS_NAME}`;
+  const description = post.excerpt || "Default description for the blog post.";
+  const url = `https://yourdomain.com/posts/${params.slug}`;
   const image = post.ogImage.url;
   const keywords = post.keywords || [];
-
 
   return {
     title,
@@ -72,13 +71,23 @@ export function generateMetadata({ params }: Params): Metadata {
       description,
       url,
       type: 'article',
-      images: [{ url: image }],
+      images: [
+        {
+          url: image,
+          alt: post.title,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [{ url: image }],
+      images: [
+        {
+          url: image,
+          alt: post.title,
+        },
+      ],
     },
   };
 }
