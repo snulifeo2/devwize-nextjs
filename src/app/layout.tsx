@@ -48,6 +48,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
           href="/favicon/safari-pinned-tab.svg"
           color="#000000"
         />
+        <link rel="icon" href="/favicon/favicon.ico" />
         <link rel="shortcut icon" href="/favicon/favicon.ico" />
         <meta name="msapplication-TileColor" content="#000000" />
         <meta
