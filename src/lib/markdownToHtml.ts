@@ -5,6 +5,8 @@ import rehypeStringify from "rehype-stringify";
 import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
 import matter from "gray-matter";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 export default async function markdownToHtml(markdown: string) {
   /*
@@ -67,7 +69,9 @@ export default async function markdownToHtml(markdown: string) {
   const result = await unified()
     .use(remarkParse)
     .use(remarkGfm) // GitHub Flavored Markdown 지원 추가
+    .use(remarkMath) // LaTeX 수식 지원 추가
     .use(remarkRehype)
+    .use(rehypeKatex) // 수식 렌더링 지원 추가
     .use(rehypePrettyCode, {
       theme: "ayu-dark",
       keepBackground: true,
