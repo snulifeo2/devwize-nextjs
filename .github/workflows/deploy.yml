@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  # 수동 시작 트리거: Actions 탭 > Workflows > Deploy to Ubuntu Server > Run workflow
+  workflow_dispatch:
 
 jobs:
   deploy:
