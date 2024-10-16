@@ -44,6 +44,7 @@ jobs:
           npm install &&
           npm run build &&
           pm2 restart nextjs || pm2 start npm --name "nextjs" -- start &&
-          pm2 save
+          pm2 save &&
+          pm2 startup systemd -u $SSH_USERNAME --hp /home/$SSH_USERNAME
         '
 
